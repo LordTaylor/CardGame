@@ -11,12 +11,12 @@ import com.lordtaylor.cardgame.R
 import com.lordtaylor.cardgame.models.SimpleCard
 import kotlinx.android.synthetic.main.game_board_fragment.*
 
-class GameBoardFragment : Fragment() ,GameActions{
+class GameBoardFragment : Fragment(), GameActions {
     private val TAG = "GameBoardFragment"
 
     private lateinit var gameViewModel: GameViewModel
     private lateinit var cardAdapter: RecyclerCardAdapter
-
+    private val numberOfCardsInRow: Int = 5
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,12 +33,20 @@ class GameBoardFragment : Fragment() ,GameActions{
     }
 
     private fun initViews() {
-        card_container.layoutManager = GridLayoutManager(context,3)
+        card_container.layoutManager = GridLayoutManager(context, numberOfCardsInRow)
         cardAdapter = RecyclerCardAdapter(context!!, listOf())
         card_container.adapter = cardAdapter
         button_draw.setOnClickListener {
             drawCard()
         }
+        button_shuffle.setOnClickListener {
+            shuffleDeck()
+        }
+    }
+
+    private fun shuffleDeck() {
+        gameViewModel.initGame()
+        cardAdapter.setCardsList(listOf())
     }
 
     private fun drawCard() {
@@ -47,9 +55,11 @@ class GameBoardFragment : Fragment() ,GameActions{
 
     override fun setCards(cardList: List<SimpleCard>) {
         cardAdapter.setCardsList(cardList)
+
     }
 
-    override fun updateCards() {
+    override fun setRemainingCards(remaining: Int) {
+        text_card_count.text = "${getText(R.string.card_count)}$remaining"
     }
 
     override fun startGame() {
