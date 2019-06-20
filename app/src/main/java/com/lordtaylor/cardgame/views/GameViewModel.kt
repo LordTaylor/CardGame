@@ -39,9 +39,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         repo.getCard(deck.deck_id).subscribeOn(Schedulers.io()
         ).observeOn(AndroidSchedulers.mainThread()).
                 subscribe({
-
+                    Log.d(TAG,"DECK ID :${it.cards}")
                 },{
-
+                    Log.e(TAG,"ERROR : ${it.localizedMessage}")
                 })
     }
 }
