@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lordtaylor.cardgame.R
+import com.lordtaylor.cardgame.R.drawable.round_background
 import com.lordtaylor.cardgame.game_logic.GameViewModel
 import com.lordtaylor.cardgame.game_share_preferances.SharedPreferencesProvider
 import com.lordtaylor.cardgame.models.SimpleCard
+import kotlinx.android.synthetic.main.card_item.*
 import kotlinx.android.synthetic.main.game_board_fragment.*
 
 class GameBoardFragment(var cardsInStack: Int = 0) : Fragment(), GameActions {
@@ -69,8 +71,10 @@ class GameBoardFragment(var cardsInStack: Int = 0) : Fragment(), GameActions {
         if (text_win_lose != null) {
             if (this.cardsInStack > 0) {
                 text_win_lose.visibility = View.INVISIBLE
+                imageView.setImageResource(R.drawable.magic_card)
             } else {
                 noCardsInDeck()
+                imageView.setImageResource(R.drawable.blank_card)
             }
         }
     }
@@ -79,6 +83,7 @@ class GameBoardFragment(var cardsInStack: Int = 0) : Fragment(), GameActions {
         if (text_win_lose != null) {
             text_win_lose.visibility = View.VISIBLE
             text_win_lose.text = getText(R.string.you_win)
+
         }
 
     }
