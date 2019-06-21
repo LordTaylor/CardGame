@@ -31,6 +31,7 @@ interface Api {
     ) deck_id: String = "new",
                  @Query("count") deck_count: String = "5"): Single<SimpleCardSet>
 
+
     companion object {
         fun create(): Api {
             val gson = GsonBuilder()

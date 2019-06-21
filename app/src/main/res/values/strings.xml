@@ -3,4 +3,6 @@
     <string name="number_of_decks">Number of decks:</string>
     <string name="start_game">Start Game</string>
     <string name="draw_cards">Draw Cards</string>
+    <string name="card_count">Card Left:</string>
+    <string name="shuffle">Shuffle Deck</string>
 </resources>

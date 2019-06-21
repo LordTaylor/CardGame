@@ -27,14 +27,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun initGame() {
         getDecks()
-        Log.d(TAG, "initGame")
     }
 
-    fun getDecks() {
+    private fun getDecks() {
         repo.getDecks(deck.deck_id, numberOfDecks).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
             {
                 deck = it
+                actions.setRemainingCards(deck.remaining)
                 Log.d(TAG, "DECK ID :$it")
             }, {
                 Log.e(TAG, "ERROR : ${it.localizedMessage}")
@@ -48,7 +48,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         ).observeOn(AndroidSchedulers.mainThread()).subscribe({
             Log.d(TAG, "DECK ID :${it.cards}")
             cardList=it.cards
+            deck.updateDeck(it)
             actions.setCards(cardList)
+            actions.setRemainingCards(deck.remaining)
         }, {
             Log.e(TAG, "ERROR : ${it.localizedMessage}")
         })
@@ -58,4 +60,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun setGameActionInterface(actions: GameActions){
         this.actions = actions
     }
+
+    fun getReaminingCards(): Int {
+        return deck.remaining
+    }
+
+
 }
