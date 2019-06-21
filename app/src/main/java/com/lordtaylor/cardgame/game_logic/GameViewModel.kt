@@ -19,7 +19,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var deck: SimpleDeck = SimpleDeck(false, "new", false, 0)
 
     private val context: Context = application.baseContext
-    private lateinit var actions: GameActions
+    lateinit var actions: GameActions
 
 
     fun setNumberOfDecks(count: Int) {
@@ -52,6 +52,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             deck.updateDeck(it)
             actions.setCards(cardList)
             actions.setRemainingCards(deck.remaining)
+            Log.d(TAG,"wining condition : ${WinConditions.checkWinConditions(cardList)}")
         }, {
             Log.e(TAG, "ERROR : ${it.localizedMessage}")
         })
@@ -65,6 +66,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setDeckFromSP(sharedDeck: SimpleDeck) {
         deck = sharedDeck
+    }
+
+    fun haveActions(): Boolean {
+        return ::actions.isInitialized
     }
 
 

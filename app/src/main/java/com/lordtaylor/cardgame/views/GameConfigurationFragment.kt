@@ -62,12 +62,12 @@ class GameConfigurationFragment : Fragment() {
 
     private fun loadGameButtonClick(loadedDeck:SimpleDeck) {
         gameViewModel.setDeckFromSP(loadedDeck)
-        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).commit()
+        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game").commit()
     }
 
     private fun newGameButtonClick() {
         gameViewModel.setNumberOfDecks(deck_count.progress)
-        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).commit()
+        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game").commit()
     }
 
 }

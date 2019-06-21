@@ -26,11 +26,14 @@ class GameBoardFragment : Fragment(), GameActions {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
         gameViewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         gameViewModel.setGameActionInterface(this)
         gameViewModel.initGame()
         initViews()
-
     }
 
     private fun initViews() {
@@ -60,7 +63,9 @@ class GameBoardFragment : Fragment(), GameActions {
     }
 
     override fun setRemainingCards(remaining: Int) {
-        text_card_count.text = "${getText(R.string.card_count)}$remaining"
+        if(text_card_count != null) {
+            text_card_count.text = "${getText(R.string.card_count)}$remaining"
+        }
     }
 
     override fun startGame() {
