@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lordtaylor.cardgame.R
+import com.lordtaylor.cardgame.game_logic.GameViewModel
 import com.lordtaylor.cardgame.models.SimpleCard
 import kotlinx.android.synthetic.main.game_board_fragment.*
 
-class GameBoardFragment : Fragment(), GameActions {
+class GameBoardFragment(var cardsInStack: Int = 0) : Fragment(), GameActions {
     private val TAG = "GameBoardFragment"
 
     private lateinit var gameViewModel: GameViewModel
@@ -25,11 +26,14 @@ class GameBoardFragment : Fragment(), GameActions {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        gameViewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        gameViewModel = ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
         gameViewModel.setGameActionInterface(this)
         gameViewModel.initGame()
         initViews()
-
     }
 
     private fun initViews() {
@@ -42,6 +46,7 @@ class GameBoardFragment : Fragment(), GameActions {
         button_shuffle.setOnClickListener {
             shuffleDeck()
         }
+        text_win_lose.visibility = View.INVISIBLE
     }
 
     private fun shuffleDeck() {
@@ -59,10 +64,28 @@ class GameBoardFragment : Fragment(), GameActions {
     }
 
     override fun setRemainingCards(remaining: Int) {
-        text_card_count.text = "${getText(R.string.card_count)}$remaining"
+        this.cardsInStack = remaining
+        if (text_win_lose != null) {
+            if (this.cardsInStack > 0) {
+                text_win_lose.visibility = View.INVISIBLE
+            }else{
+                noCardsInDeck()
+            }
+        }
     }
 
-    override fun startGame() {
+    override fun playerWins() {
+        if (text_win_lose != null) {
+            text_win_lose.visibility = View.VISIBLE
+            text_win_lose.text = getText(R.string.you_win)
+        }
 
+    }
+
+    override fun noCardsInDeck() {
+        if (text_win_lose != null) {
+            text_win_lose.visibility = View.VISIBLE
+            text_win_lose.text = getText(R.string.no_cards_left)
+        }
     }
 }
