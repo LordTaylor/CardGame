@@ -2,6 +2,7 @@ package com.lordtaylor.cardgame.views
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.game_configuration_fragment.*
 
 class GameConfigurationFragment : Fragment() {
 
+    private val TAG = "GameConfiguration"
 
     private lateinit var gameViewModel: GameViewModel
     lateinit var loadedDeck:SimpleDeck
@@ -28,7 +30,7 @@ class GameConfigurationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gameViewModel=ViewModelProviders.of(this).get(GameViewModel::class.java)
+        gameViewModel=ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
          loadedDeck =SharedPreferencesProvider.GetSavedDeckID(context!!)
 
         text_deck_count.text = "${getText(R.string.number_of_decks)}1"
@@ -37,7 +39,7 @@ class GameConfigurationFragment : Fragment() {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current deck count
-                text_deck_count.text = "${getText(R.string.number_of_decks)}${i + 1}"
+                text_deck_count.text = "${getText(R.string.number_of_decks)}${i + 1} "
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -67,6 +69,7 @@ class GameConfigurationFragment : Fragment() {
 
     private fun newGameButtonClick() {
         gameViewModel.setNumberOfDecks(deck_count.progress)
+        Log.d(TAG,"count deck = ${deck_count.progress}")
         fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game").commit()
     }
 

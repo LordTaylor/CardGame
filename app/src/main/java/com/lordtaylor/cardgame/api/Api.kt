@@ -17,19 +17,13 @@ interface Api {
 
     @GET("deck/{deck_id}/shuffle/")
     fun getDecks(
-        @Path(
-            value = "deck_id",
-            encoded = true
-        ) deck_id: String = "new",
-        @Query("deck_count") deck_count: String = "1"
+        @Path("deck_id") deck_id: String ,
+        @Query("deck_count") count: Int
     ): Single<SimpleDeck>
 
     @GET("deck/{deck_id}/draw/")
-    fun getCards(@Path(
-        value = "deck_id",
-        encoded = true
-    ) deck_id: String = "new",
-                 @Query("count") deck_count: String = Constance.NUMBER_OF_CARDS_TO_DRAW): Single<SimpleCardSet>
+    fun getCards(@Path("deck_id") deck_id: String ,
+                 @Query("count") count: String = Constance.NUMBER_OF_CARDS_TO_DRAW): Single<SimpleCardSet>
 
 
     companion object {
