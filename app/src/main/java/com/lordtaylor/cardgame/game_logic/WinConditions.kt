@@ -17,7 +17,7 @@ object WinConditions {
     private var figureMap = mutableMapOf<Int, Int>()
     fun checkWinConditions(cards: List<SimpleCard>): Boolean {
         colorMap = intArrayOf(0, 0, 0, 0)
-        figureMap = mutableMapOf<Int, Int>()
+        figureMap = mutableMapOf()
         cards.forEach {
             when (it.suit) {
                 in "HEARTS" -> colorMap[0]++
@@ -74,28 +74,28 @@ object WinConditions {
 
     private fun checkStairs(): Boolean {
 
-        var check = false
+
         var tmpVal = -1
         figureMap.forEach {
             when (it.key) {
                 Figures.KING.position -> {
-                    check = checkIncreasing(tmpVal, Figures.KING.position)
+                    checkIncreasing(tmpVal, Figures.KING.position)
                     tmpVal = Figures.KING.position;
                 }
                 Figures.QUEEN.position -> {
-                    check = checkIncreasing(tmpVal, Figures.QUEEN.position)
+                    checkIncreasing(tmpVal, Figures.QUEEN.position)
                     tmpVal = Figures.QUEEN.position
                 }
                 Figures.JACK.position -> {
-                    check = checkIncreasing(tmpVal, Figures.JACK.position)
+                    checkIncreasing(tmpVal, Figures.JACK.position)
                     tmpVal = Figures.JACK.position
                 }
                 Figures.ACE.position -> {
-                    check = checkIncreasing(tmpVal, Figures.ACE.position)
+                    checkIncreasing(tmpVal, Figures.ACE.position)
                     tmpVal = Figures.ACE.position
                 }
                 it.key -> {
-                    check = checkIncreasing(tmpVal, it.key)
+                    checkIncreasing(tmpVal, it.key)
                     tmpVal = it.key
                 }
             }

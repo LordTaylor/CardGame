@@ -15,16 +15,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, GameConfigurationFragment()).addToBackStack("game").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, GameConfigurationFragment())
+            .addToBackStack("game").commit()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
-//        if (viewModel.haveActions()) {
-//            supportFragmentManager.beginTransaction().replace(R.id.main_container, GameBoardFragment()).commit()
-//        } else {
-//
-//        }
     }
 }

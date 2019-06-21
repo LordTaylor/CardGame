@@ -20,7 +20,7 @@ class GameConfigurationFragment : Fragment() {
     private val TAG = "GameConfiguration"
 
     private lateinit var gameViewModel: GameViewModel
-    lateinit var loadedDeck:SimpleDeck
+    lateinit var loadedDeck: SimpleDeck
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.game_configuration_fragment, container, false)
@@ -30,8 +30,8 @@ class GameConfigurationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gameViewModel=ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
-         loadedDeck =SharedPreferencesProvider.GetSavedDeckID(context!!)
+        gameViewModel = ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
+        loadedDeck = SharedPreferencesProvider.getSavedDeck(context!!)
 
         text_deck_count.text = "${getText(R.string.number_of_decks)}1"
         deck_count.progress = 0
@@ -54,7 +54,7 @@ class GameConfigurationFragment : Fragment() {
         button_start_game.setOnClickListener {
             newGameButtonClick()
         }
-        if(loadedDeck.deck_id.equals("new")){
+        if (loadedDeck.deck_id.equals("new")) {
             button_load_game.isEnabled = false
         }
         button_load_game.setOnClickListener {
@@ -62,15 +62,17 @@ class GameConfigurationFragment : Fragment() {
         }
     }
 
-    private fun loadGameButtonClick(loadedDeck:SimpleDeck) {
+    private fun loadGameButtonClick(loadedDeck: SimpleDeck) {
         gameViewModel.setDeckFromSP(loadedDeck)
-        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game").commit()
+        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game")
+            .commit()
     }
 
     private fun newGameButtonClick() {
-        gameViewModel.setNumberOfDecks(deck_count.progress)
-        Log.d(TAG,"count deck = ${deck_count.progress}")
-        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game").commit()
+        gameViewModel.setNumberOfDecks(deck_count.progress + 1)
+        Log.d(TAG, "count deck = ${deck_count.progress}")
+        fragmentManager!!.beginTransaction().replace(R.id.main_container, GameBoardFragment()).addToBackStack("game")
+            .commit()
     }
 
 }

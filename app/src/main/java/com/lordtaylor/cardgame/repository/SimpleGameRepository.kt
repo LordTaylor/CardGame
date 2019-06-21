@@ -15,8 +15,5 @@ class SimpleGameRepository :BaseRepository {
         return api.getCards(deck_id)
     }
 
-    private var api:Api
-    init {
-        api = Api.create()
-    }
+    private var api: Api = Api.create()
 }

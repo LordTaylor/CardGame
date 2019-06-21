@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lordtaylor.cardgame.R
 import com.lordtaylor.cardgame.game_logic.GameViewModel
+import com.lordtaylor.cardgame.game_share_preferances.SharedPreferencesProvider
 import com.lordtaylor.cardgame.models.SimpleCard
 import kotlinx.android.synthetic.main.game_board_fragment.*
 
@@ -68,7 +69,7 @@ class GameBoardFragment(var cardsInStack: Int = 0) : Fragment(), GameActions {
         if (text_win_lose != null) {
             if (this.cardsInStack > 0) {
                 text_win_lose.visibility = View.INVISIBLE
-            }else{
+            } else {
                 noCardsInDeck()
             }
         }
@@ -87,5 +88,10 @@ class GameBoardFragment(var cardsInStack: Int = 0) : Fragment(), GameActions {
             text_win_lose.visibility = View.VISIBLE
             text_win_lose.text = getText(R.string.no_cards_left)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SharedPreferencesProvider.setSaveDeck(context!!, gameViewModel.getDeck())
     }
 }
