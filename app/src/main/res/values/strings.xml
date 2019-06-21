@@ -5,4 +5,6 @@
     <string name="draw_cards">Draw Cards</string>
     <string name="card_count">Card Left:</string>
     <string name="shuffle">Shuffle Deck</string>
+    <string name="load_game">Load Game</string>
+    <string name="you_win">YOU WIN</string>
 </resources>
