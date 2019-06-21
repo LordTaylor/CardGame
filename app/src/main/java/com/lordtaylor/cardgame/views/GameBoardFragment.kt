@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lordtaylor.cardgame.R
+import com.lordtaylor.cardgame.game_logic.GameViewModel
 import com.lordtaylor.cardgame.models.SimpleCard
 import kotlinx.android.synthetic.main.game_board_fragment.*
 
@@ -25,11 +26,14 @@ class GameBoardFragment : Fragment(), GameActions {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
         gameViewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         gameViewModel.setGameActionInterface(this)
         gameViewModel.initGame()
         initViews()
-
     }
 
     private fun initViews() {
@@ -59,7 +63,9 @@ class GameBoardFragment : Fragment(), GameActions {
     }
 
     override fun setRemainingCards(remaining: Int) {
-        text_card_count.text = "${getText(R.string.card_count)}$remaining"
+        if(text_card_count != null) {
+            text_card_count.text = "${getText(R.string.card_count)}$remaining"
+        }
     }
 
     override fun startGame() {
