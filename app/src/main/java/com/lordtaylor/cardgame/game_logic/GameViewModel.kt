@@ -1,4 +1,4 @@
-package com.lordtaylor.cardgame.views
+package com.lordtaylor.cardgame.game_logic
 
 import android.app.Application
 import android.content.Context
@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.lordtaylor.cardgame.models.SimpleCard
 import com.lordtaylor.cardgame.models.SimpleDeck
 import com.lordtaylor.cardgame.repository.SimpleGameRepository
+import com.lordtaylor.cardgame.views.GameActions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -18,7 +19,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var deck: SimpleDeck = SimpleDeck(false, "new", false, 0)
 
     private val context: Context = application.baseContext
-    private lateinit var actions:GameActions
+    lateinit var actions: GameActions
 
 
     fun setNumberOfDecks(count: Int) {
@@ -51,6 +52,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             deck.updateDeck(it)
             actions.setCards(cardList)
             actions.setRemainingCards(deck.remaining)
+            Log.d(TAG,"wining condition : ${WinConditions.checkWinConditions(cardList)}")
         }, {
             Log.e(TAG, "ERROR : ${it.localizedMessage}")
         })
@@ -61,8 +63,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         this.actions = actions
     }
 
-    fun getReaminingCards(): Int {
-        return deck.remaining
+
+    fun setDeckFromSP(sharedDeck: SimpleDeck) {
+        deck = sharedDeck
+    }
+
+    fun haveActions(): Boolean {
+        return ::actions.isInitialized
     }
 
 

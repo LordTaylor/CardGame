@@ -29,7 +29,7 @@ interface Api {
         value = "deck_id",
         encoded = true
     ) deck_id: String = "new",
-                 @Query("count") deck_count: String = "5"): Single<SimpleCardSet>
+                 @Query("count") deck_count: String = Constance.NUMBER_OF_CARDS_TO_DRAW): Single<SimpleCardSet>
 
 
     companion object {
