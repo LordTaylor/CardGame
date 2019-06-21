@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lordtaylor.cardgame.R
+import com.lordtaylor.cardgame.game_logic.GameViewModel
 import com.lordtaylor.cardgame.models.SimpleCard
 import kotlinx.android.synthetic.main.game_board_fragment.*
 
