@@ -37,15 +37,15 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun getDecks() {
         repo.getDecks(deck.deck_id, numberOfDecks).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
-            {
-                deck = it
-                actions.setRemainingCards(deck.remaining)
-                Log.d(TAG, "DECK ID :$it")
+                {
+                    deck = it
+                    actions.setRemainingCards(deck.remaining)
+                    Log.d(TAG, "DECK ID :$it")
 
-            }, {
-                Log.e(TAG, "ERROR : ${it.localizedMessage}")
-            }
-        )
+                }, {
+                    Log.e(TAG, "ERROR : ${it.localizedMessage}")
+                }
+            )
     }
 
     @SuppressLint("CheckResult")
@@ -54,18 +54,18 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             Schedulers.io()
         ).observeOn(AndroidSchedulers.mainThread()).subscribe({
             Log.d(TAG, "DECK ID :${it.cards}")
-            cardList=it.cards
+            cardList = it.cards
             deck.updateDeck(it)
             actions.setCards(cardList)
             actions.setRemainingCards(deck.remaining)
-            if(WinConditions.checkWinConditions(cardList)) actions.playerWins()
+            if (WinConditions.checkWinConditions(cardList)) actions.playerWins()
         }, {
             Log.e(TAG, "ERROR : ${it.localizedMessage}")
         })
     }
 
 
-    fun setGameActionInterface(actions: GameActions){
+    fun setGameActionInterface(actions: GameActions) {
         this.actions = actions
     }
 
@@ -76,6 +76,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun haveActions(): Boolean {
         return ::actions.isInitialized
+    }
+
+    fun getDeck(): SimpleDeck {
+        return deck
     }
 
 
